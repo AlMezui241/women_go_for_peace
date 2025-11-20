@@ -27,9 +27,15 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'change-me')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME', 'localhost')]
+# Configuration idéale pour Render (fonctionne en local + en prod + plan gratuit)
+ALLOWED_HOSTS = [
+    os.environ.get('RENDER_EXTERNAL_HOSTNAME'),  # Render l'injecte tout seul
+    'localhost',
+    '127.0.0.1',
+]
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,https://localhost').split(',')
+# Ou version encore plus courte et très courante sur Render
+# ALLOWED_HOSTS = os.environ.get('RENDER_EXTERNAL_HOSTNAME', 'localhost').split(',')
 
 
 # Application definition

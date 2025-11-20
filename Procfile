@@ -1,0 +1,1 @@
+web: gunicorn women_go_for_peace.wsgi:application

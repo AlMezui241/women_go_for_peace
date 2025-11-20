@@ -27,8 +27,16 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'change-me')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,https://localhost').split(',')
+ALLOWED_HOSTS = [
+    'women-go-for-peace.onrender.com',   # ← ton domaine Render exact
+    # si tu veux être large :
+    '.onrender.com',                     # autorise tous les sous-domaines Render
+]
+
+# Bonus très recommandé sur Render (car ils sont derrière un proxy)
+USE_X_FORWARDED_HOST = True
+
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://women-go-for-peace.onrender.com').split(',')
 
 
 # Application definition

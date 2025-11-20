@@ -27,14 +27,17 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'change-me')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-# La ligne qui va tout débloquer
+# Version ultra-robuste qui marche à tous les coups sur Render
+hostname = os.environ.get('RENDER_EXTERNAL_HOSTNAME') or 'localhost'
+
 ALLOWED_HOSTS = [
-    os.environ.get('RENDER_EXTERNAL_HOSTNAME'),
+    hostname,              # ← women-go-for-peace.onrender.com en prod, localhost en local
     'localhost',
     '127.0.0.1',
+    '.onrender.com',       # bonus : accepte tous les sous-domaines Render
 ]
 
-# Optionnel mais très recommandé sur Render
+# Et ajoute ces deux lignes (très importantes sur Render !)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
 

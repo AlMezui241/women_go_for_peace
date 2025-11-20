@@ -27,15 +27,16 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'change-me')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-# Configuration idéale pour Render (fonctionne en local + en prod + plan gratuit)
+# La ligne qui va tout débloquer
 ALLOWED_HOSTS = [
-    os.environ.get('RENDER_EXTERNAL_HOSTNAME'),  # Render l'injecte tout seul
+    os.environ.get('RENDER_EXTERNAL_HOSTNAME'),
     'localhost',
     '127.0.0.1',
 ]
 
-# Ou version encore plus courte et très courante sur Render
-# ALLOWED_HOSTS = os.environ.get('RENDER_EXTERNAL_HOSTNAME', 'localhost').split(',')
+# Optionnel mais très recommandé sur Render
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
 
 
 # Application definition

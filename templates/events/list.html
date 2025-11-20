@@ -1,0 +1,146 @@
+<!-- templates/events/list.html -->
+{% extends 'base.html' %}
+
+{% block title %}Événements - Women Go for Peace{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Nos Événements</h1>
+        <p class="text-xl text-gray-600">
+            Découvrez nos prochains événements et retrouvez le compte-rendu des actions passées.
+        </p>
+    </div>
+
+    <!-- Événements à venir -->
+    <section class="mb-16">
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Événements à Venir</h2>
+        
+        {% if events %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for event in events %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition fade-in">
+                {% if event.image %}
+                <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-48 object-cover">
+                {% else %}
+                <div class="w-full h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                    <i class="fas fa-calendar-alt text-white text-4xl"></i>
+                </div>
+                {% endif %}
+                
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-sm font-semibold text-blue-600">
+                            <i class="fas fa-calendar-day mr-1"></i>
+                            {{ event.date|date:"d F Y" }}
+                        </span>
+                        <span class="text-sm text-gray-500">
+                            <i class="fas fa-clock mr-1"></i>
+                            {{ event.date|date:"H:i" }}
+                        </span>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">{{ event.title }}</h3>
+                    <p class="text-gray-600 mb-4 line-clamp-3">{{ event.description|truncatewords:20 }}</p>
+                    
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            {{ event.location }}
+                        </span>
+                        <a href="{% url 'events:detail' event.id %}" class="text-blue-600 font-semibold hover:text-blue-700 transition">
+                            Détails →
+                        </a>
+                    </div>
+                    
+                    {% if event.registration_link %}
+                    <div class="mt-4">
+                        <a href="{{ event.registration_link }}" target="_blank" 
+                           class="block w-full bg-green-600 text-white text-center py-2 rounded-lg hover:bg-green-700 transition">
+                            S'inscrire
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12 bg-gray-50 rounded-2xl">
+            <i class="fas fa-calendar-times text-6xl text-gray-300 mb-4"></i>
+            <p class="text-xl text-gray-500">Aucun événement à venir pour le moment.</p>
+            <p class="text-gray-400 mt-2">Revenez bientôt pour découvrir nos prochaines activités.</p>
+        </div>
+        {% endif %}
+    </section>
+
+    <!-- Événements passés -->
+    <section>
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Événements Passés</h2>
+        
+        {% if past_events %}
+        <div class="space-y-6">
+            {% for event in past_events %}
+            <div class="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition">
+                <div class="flex flex-col md:flex-row md:items-center justify-between">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-4 mb-2">
+                            <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">
+                                <i class="fas fa-calendar-check mr-1"></i>
+                                {{ event.date|date:"d M Y" }}
+                            </span>
+                            <h3 class="text-lg font-semibold text-gray-800">{{ event.title }}</h3>
+                        </div>
+                        <p class="text-gray-600 mb-2">{{ event.description|truncatewords:30 }}</p>
+                        <div class="flex items-center space-x-4 text-sm text-gray-500">
+                            <span>
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                {{ event.location }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <a href="{% url 'events:detail' event.id %}" 
+                           class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                            Voir le compte-rendu
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-8 bg-gray-50 rounded-2xl">
+            <i class="fas fa-history text-4xl text-gray-300 mb-3"></i>
+            <p class="text-gray-500">Aucun événement passé à afficher.</p>
+        </div>
+        {% endif %}
+    </section>
+
+    <!-- Appel à l'action -->
+    <section class="mt-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-8 text-center text-white">
+        <h2 class="text-2xl font-bold mb-4">Ne manquez aucun événement</h2>
+        <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+            Inscrivez-vous à notre newsletter pour recevoir les invitations à nos événements 
+            et les dernières actualités de l'association.
+        </p>
+        <div class="max-w-md mx-auto flex">
+            <input type="email" placeholder="Votre email" 
+                   class="flex-1 px-4 py-3 rounded-l-lg text-gray-800 focus:outline-none">
+            <button class="bg-green-500 px-6 py-3 rounded-r-lg font-semibold hover:bg-green-600 transition">
+                S'inscrire
+            </button>
+        </div>
+    </section>
+</div>
+
+<style>
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+</style>
+{% endblock %}

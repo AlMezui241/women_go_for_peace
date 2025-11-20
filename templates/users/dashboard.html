@@ -1,0 +1,160 @@
+<!-- templates/users/dashboard.html -->
+{% extends 'base.html' %}
+
+{% block title %}Tableau de bord - Women Go for Peace{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <!-- En-tête -->
+    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+        <div class="flex items-center space-x-6">
+            {% if user_profile.avatar %}
+            <img src="{{ user_profile.avatar.url }}" alt="Avatar" class="w-20 h-20 rounded-full object-cover">
+            {% else %}
+            <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center">
+                <i class="fas fa-user text-blue-600 text-2xl"></i>
+            </div>
+            {% endif %}
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">
+                    Bonjour, {{ user.username }} !
+                </h1>
+                <p class="text-gray-600 mt-1">
+                    Bienvenue dans votre espace membre 
+                    <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-sm ml-2">
+                        {{ user_profile.get_user_type_display }}
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Navigation -->
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-2xl shadow-lg p-6 space-y-4">
+                <a href="{% url 'users:dashboard' %}" 
+                   class="flex items-center space-x-3 p-3 bg-blue-50 text-blue-600 rounded-lg font-semibold">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="{% url 'users:profile' %}" 
+                   class="flex items-center space-x-3 p-3 text-gray-600 hover:bg-gray-50 rounded-lg">
+                    <i class="fas fa-user-edit"></i>
+                    <span>Mon profil</span>
+                </a>
+                <a href="#" 
+                   class="flex items-center space-x-3 p-3 text-gray-600 hover:bg-gray-50 rounded-lg">
+                    <i class="fas fa-history"></i>
+                    <span>Mes activités</span>
+                </a>
+                <a href="#" 
+                   class="flex items-center space-x-3 p-3 text-gray-600 hover:bg-gray-50 rounded-lg">
+                    <i class="fas fa-donate"></i>
+                    <span>Mes dons</span>
+                </a>
+                <a href="{% url 'users:logout' %}" 
+                   class="flex items-center space-x-3 p-3 text-red-600 hover:bg-red-50 rounded-lg">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Contenu principal -->
+        <div class="lg:col-span-2 space-y-8">
+            <!-- Statistiques rapides -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-blue-50 rounded-2xl p-6 text-center">
+                    <div class="text-2xl font-bold text-blue-600 mb-2">3</div>
+                    <div class="text-blue-800">Événements à venir</div>
+                </div>
+                <div class="bg-green-50 rounded-2xl p-6 text-center">
+                    <div class="text-2xl font-bold text-green-600 mb-2">12</div>
+                    <div class="text-green-800">Ressources disponibles</div>
+                </div>
+                <div class="bg-purple-50 rounded-2xl p-6 text-center">
+                    <div class="text-2xl font-bold text-purple-600 mb-2">5</div>
+                    <div class="text-purple-800">Actions en cours</div>
+                </div>
+            </div>
+
+            <!-- Ressources exclusives -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Ressources Exclusives</h2>
+                
+                {% if resources %}
+                <div class="space-y-4">
+                    {% for resource in resources %}
+                    <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                {% if resource.resource_type == 'document' %}
+                                <i class="fas fa-file-pdf text-blue-600"></i>
+                                {% elif resource.resource_type == 'video' %}
+                                <i class="fas fa-video text-blue-600"></i>
+                                {% elif resource.resource_type == 'link' %}
+                                <i class="fas fa-link text-blue-600"></i>
+                                {% else %}
+                                <i class="fas fa-file-alt text-blue-600"></i>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">{{ resource.title }}</h3>
+                                <p class="text-sm text-gray-600">{{ resource.description }}</p>
+                            </div>
+                        </div>
+                        <div>
+                            {% if resource.file %}
+                            <a href="{{ resource.file.url }}" download 
+                               class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                                Télécharger
+                            </a>
+                            {% elif resource.url %}
+                            <a href="{{ resource.url }}" target="_blank"
+                               class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                                Accéder
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-8 text-gray-500">
+                    <i class="fas fa-inbox text-4xl mb-3"></i>
+                    <p>Aucune ressource disponible pour votre profil.</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Événements à venir -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Vos Prochains Événements</h2>
+                
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Formation à la médiation</h3>
+                            <p class="text-sm text-gray-600">15 Mars 2024 - 10:00</p>
+                        </div>
+                        <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
+                            Inscrit
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Réunion des bénévoles</h3>
+                            <p class="text-sm text-gray-600">22 Mars 2024 - 14:00</p>
+                        </div>
+                        <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm">
+                            S'inscrire
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+<!-- templates/core/about.html -->
+{% extends 'base.html' %}
+
+{% block title %}À propos - Women Go for Peace{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-12">
+    <!-- Hero Section -->
+    <div class="text-center mb-16">
+        <h1 class="text-4xl font-bold text-gray-800 mb-6">À propos de Women Go for Peace</h1>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Découvrez notre mission, notre histoire et les valeurs qui guident nos actions pour la paix et les droits des femmes.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+        <!-- Notre Mission -->
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
+                <i class="fas fa-bullseye text-blue-600 text-xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Notre Mission</h2>
+            <p><img src="/static/img/002.jpeg" alt="Notre Mission" class="w-34 h-auto rounded-lg mb-2"></p>
+            <p class="text-gray-600 leading-relaxed">
+                Women Go for Peace œuvre pour un monde où les femmes sont pleinement actrices 
+                des processus de paix et de reconstruction. Nous croyons en leur pouvoir 
+                transformateur pour bâtir des sociétés plus justes et pacifiques.
+            </p>
+        </div>
+
+        <!-- Notre Vision -->
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
+                <i class="fas fa-eye text-blue-600 text-xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Notre Vision</h2>
+            <p><img src="/static/img/003.jpeg" alt="Notre Vision" class="w-34 h-auto rounded-lg mb-2"></p>
+            <p class="text-gray-600 leading-relaxed">
+                Nous aspirons à un monde où l'égalité des genres est une réalité, où les femmes 
+                participent équitablement à tous les niveaux de décision et où leur leadership 
+                est reconnu comme essentiel à la construction de la paix durable.
+            </p>
+        </div>
+    </div>
+
+    <!-- Notre Histoire -->
+    <div class="bg-gray-50 rounded-2xl p-8 mb-16">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Notre Histoire</h2>
+        <p><img src="/static/img/004.jpeg" alt="Notre Histoire" class="w-34 h-auto rounded-lg mb-2 mx-auto"></p>
+        <div class="max-w-4xl mx-auto">
+            <div class="prose prose-lg text-gray-600">
+                <p>
+                    Fondée en 2010, Women Go for Peace est née de la conviction que les femmes 
+                    jouent un rôle crucial dans la prévention des conflits et la construction 
+                    de la paix. Notre organisation a commencé avec un petit groupe de femmes 
+                    déterminées à faire entendre leur voix dans les processus de paix.
+                </p>
+                <p>
+                    Au fil des années, nous avons étendu nos actions à plus de 25 pays, 
+                    formé des milliers de femmes à la médiation et influencé les politiques 
+                    de paix au niveau international. Aujourd'hui, nous sommes reconnues 
+                    comme une organisation leader dans la promotion du rôle des femmes 
+                    dans la résolution des conflits.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nos Valeurs -->
+    <div class="mb-16">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Nos Valeurs</h2>
+       
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <div class="text-center p-6">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-balance-scale text-blue-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Égalité</h3>
+                <p class="text-gray-600">
+                    Nous promouvons l'égalité des genres dans tous les aspects de la société.
+                </p>
+            </div>
+            <div class="text-center p-6">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-shield-alt text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Justice</h3>
+                <p class="text-gray-600">
+                    Nous luttons pour la justice sociale et les droits humains fondamentaux.
+                </p>
+            </div>
+            <div class="text-center p-6">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-hands-helping text-purple-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Solidarité</h3>
+                <p class="text-gray-600">
+                    Nous travaillons en solidarité avec les femmes du monde entier.
+                </p>
+            </div>
+            <div class="text-center p-6">
+                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-handshake text-orange-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Paix</h3>
+                <p class="text-gray-600">
+                    Nous croyons en la paix durable comme fondement du développement.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

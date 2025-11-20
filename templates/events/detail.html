@@ -1,0 +1,176 @@
+<!-- templates/events/detail.html -->
+{% extends 'base.html' %}
+
+{% block title %}{{ event.title }} - Women Go for Peace{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-12">
+    <!-- En-tête de l'événement -->
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
+        {% if event.image %}
+        <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-64 md:h-80 object-cover">
+        {% else %}
+        <div class="w-full h-64 md:h-80 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+            <i class="fas fa-calendar-alt text-white text-6xl"></i>
+        </div>
+        {% endif %}
+        
+        <div class="p-8">
+            <div class="flex flex-wrap items-center gap-4 mb-4">
+                <span class="px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold">
+                    <i class="fas fa-calendar-day mr-2"></i>
+                    {{ event.date|date:"l d F Y" }}
+                </span>
+                <span class="px-4 py-2 bg-gray-100 text-gray-600 rounded-full">
+                    <i class="fas fa-clock mr-2"></i>
+                    {{ event.date|date:"H:i" }}
+                </span>
+                <span class="px-4 py-2 bg-green-100 text-green-600 rounded-full">
+                    <i class="fas fa-map-marker-alt mr-2"></i>
+                    {{ event.location }}
+                </span>
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">{{ event.title }}</h1>
+            
+            {% if event.registration_link and event.date > now %}
+            <div class="mt-6">
+                <a href="{{ event.registration_link }}" target="_blank" 
+                   class="inline-block bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition text-lg">
+                    <i class="fas fa-user-plus mr-2"></i>
+                    S'inscrire à l'événement
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Contenu de l'événement -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Description principale -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-2xl shadow-lg p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">À propos de cet événement</h2>
+                <div class="prose prose-lg text-gray-600 max-w-none">
+                    {{ event.description|linebreaks }}
+                </div>
+                
+                <!-- Informations pratiques -->
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Informations pratiques</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-calendar text-blue-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Date</p>
+                                <p class="font-semibold text-gray-800">{{ event.date|date:"d F Y" }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-clock text-blue-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Heure</p>
+                                <p class="font-semibold text-gray-800">{{ event.date|date:"H:i" }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-map-marker-alt text-blue-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Lieu</p>
+                                <p class="font-semibold text-gray-800">{{ event.location }}</p>
+                            </div>
+                        </div>
+                        
+                        {% if event.registration_link %}
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-link text-green-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Inscription</p>
+                                <a href="{{ event.registration_link }}" target="_blank" class="font-semibold text-green-600 hover:text-green-700">
+                                    Lien d'inscription
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+            <!-- Statut de l'événement -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Statut</h3>
+                {% if event.date > now %}
+                <div class="flex items-center space-x-3 text-green-600">
+                    <i class="fas fa-hourglass-start text-xl"></i>
+                    <span class="font-semibold">Événement à venir</span>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">
+                    Inscrivez-vous pour réserver votre place.
+                </p>
+                {% else %}
+                <div class="flex items-center space-x-3 text-blue-600">
+                    <i class="fas fa-check-circle text-xl"></i>
+                    <span class="font-semibold">Événement terminé</span>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">
+                    Retrouvez bientôt le compte-rendu de cet événement.
+                </p>
+                {% endif %}
+            </div>
+
+            <!-- Actions -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Partager</h3>
+                <div class="flex space-x-3">
+                    <a href="#" class="w-10 h-10 bg-blue-600 text-white rounded-lg flex items-center justify-center hover:bg-blue-700 transition">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-blue-400 text-white rounded-lg flex items-center justify-center hover:bg-blue-500 transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-purple-600 text-white rounded-lg flex items-center justify-center hover:bg-purple-700 transition">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-gray-800 text-white rounded-lg flex items-center justify-center hover:bg-gray-900 transition">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Événements similaires -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Autres événements</h3>
+                <div class="space-y-4">
+                    <a href="{% url 'events:list' %}" class="block text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                        Voir tous les événements
+                    </a>
+                    <a href="{% url 'donations:donate' %}" class="block text-center bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
+                        Soutenir nos actions
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Ajouter la date actuelle pour les comparaisons
+const now = new Date('{{ now|date:"c" }}');
+const eventDate = new Date('{{ event.date|date:"c" }}');
+</script>
+{% endblock %}

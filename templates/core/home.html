@@ -1,0 +1,116 @@
+<!-- templates/core/home.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Accueil - Women Go for Peace{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="gradient-bg text-white">
+    <div class="max-w-7xl mx-auto px-4 py-20 hero-pattern">
+        <div class="text-center">
+            <h1 class="text-5xl font-bold mb-6">Women Go for Peace</h1>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                Œuvrons ensemble pour un monde où les femmes sont actrices de paix et de changement.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'donations:donate' %}" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
+                    Faire un don
+                </a>
+                <a href="{% url 'projects:list' %}" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition">
+                    Découvrir nos projets
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Chiffres clés -->
+<section class="bg-white py-16">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div class="p-6">
+                <div class="text-4xl font-bold text-blue-600 mb-2">50+</div>
+                <div class="text-gray-600">Projets réalisés</div>
+            </div>
+            <div class="p-6">
+                <div class="text-4xl font-bold text-blue-600 mb-2">25</div>
+                <div class="text-gray-600">Pays d'intervention</div>
+            </div>
+            <div class="p-6">
+                <div class="text-4xl font-bold text-blue-600 mb-2">10K+</div>
+                <div class="text-gray-600">Femmes accompagnées</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projets en vedette -->
+<section class="bg-gray-50 py-16">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Nos Projets en Cours</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for project in featured_projects %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="inline-block bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm mb-3">
+                        {{ project.get_status_display }}
+                    </span>
+                    <h3 class="text-xl font-semibold mb-3">{{ project.title }}</h3>
+                    <p class="text-gray-600 mb-4">{{ project.short_description }}</p>
+                    <a href="{% url 'projects:detail' project.id %}" class="text-blue-600 font-semibold hover:text-blue-700 transition">
+                        En savoir plus →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-8">
+            <a href="{% url 'projects:list' %}" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                Voir tous les projets
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Actualités récentes -->
+<section class="bg-white py-16">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Dernières Actualités</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for post in recent_posts %}
+            <div class="bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="text-sm text-gray-500">{{ post.created_at|date:"d F Y" }}</span>
+                    <h3 class="text-xl font-semibold mb-3 mt-2">{{ post.title }}</h3>
+                    <p class="text-gray-600 mb-4">{{ post.excerpt }}</p>
+                    <a href="{% url 'blog:detail' post.slug %}" class="text-blue-600 font-semibold hover:text-blue-700 transition">
+                        Lire l'article →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Appel à l'action -->
+<section class="gradient-bg text-white py-16">
+    <div class="max-w-4xl mx-auto text-center px-4">
+        <h2 class="text-3xl font-bold mb-6">Rejoignez Notre Combat</h2>
+        <p class="text-xl mb-8">
+            Votre soutien permet de financer nos actions sur le terrain et d'amplifier notre impact.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'donations:donate' %}" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
+                Faire un don
+            </a>
+            <a href="{% url 'core:contact' %}" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition">
+                Devenir bénévole
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

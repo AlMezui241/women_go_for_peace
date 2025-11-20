@@ -1,0 +1,149 @@
+<!-- templates/events/calendar.html -->
+{% extends 'base.html' %}
+
+{% block title %}Calendrier des Événements - Women Go for Peace{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Calendrier des Événements</h1>
+        <p class="text-xl text-gray-600">
+            Découvrez tous nos événements à venir mois par mois.
+        </p>
+    </div>
+
+    <!-- Navigation du calendrier -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <div class="flex items-center justify-between">
+            <a href="?year={{ prev_month.year }}&month={{ prev_month.month }}" 
+               class="flex items-center space-x-2 text-blue-600 hover:text-blue-700 transition">
+                <i class="fas fa-chevron-left"></i>
+                <span>{{ prev_month|date:"F Y" }}</span>
+            </a>
+            
+            <h2 class="text-2xl font-bold text-gray-800 text-center">
+                {{ current_month|date:"F Y" }}
+            </h2>
+            
+            <a href="?year={{ next_month.year }}&month={{ next_month.month }}" 
+               class="flex items-center space-x-2 text-blue-600 hover:text-blue-700 transition">
+                <span>{{ next_month|date:"F Y" }}</span>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Calendrier -->
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <!-- En-têtes des jours -->
+        <div class="grid grid-cols-7 bg-blue-600 text-white">
+            <div class="p-4 text-center font-semibold">Lundi</div>
+            <div class="p-4 text-center font-semibold">Mardi</div>
+            <div class="p-4 text-center font-semibold">Mercredi</div>
+            <div class="p-4 text-center font-semibold">Jeudi</div>
+            <div class="p-4 text-center font-semibold">Vendredi</div>
+            <div class="p-4 text-center font-semibold">Samedi</div>
+            <div class="p-4 text-center font-semibold">Dimanche</div>
+        </div>
+
+        <!-- Jours du mois -->
+        <div class="divide-y divide-gray-200">
+            {% for week in calendar %}
+            <div class="grid grid-cols-7 divide-x divide-gray-200">
+                {% for day_data in week %}
+                <div class="min-h-32 p-3 {% if not day_data.day %}bg-gray-50{% endif %}">
+                    {% if day_data.day %}
+                    <div class="flex flex-col h-full">
+                        <!-- Numéro du jour -->
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-lg font-semibold {% if day_data.is_today %}text-blue-600{% else %}text-gray-800{% endif %}">
+                                {{ day_data.day }}
+                            </span>
+                            {% if day_data.is_today %}
+                            <span class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
+                                Aujourd'hui
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Événements du jour -->
+                        <div class="flex-1 space-y-1">
+                            {% for event in day_data.events %}
+                            <div class="bg-blue-50 border border-blue-200 rounded p-2 text-xs">
+                                <div class="font-semibold text-blue-800 truncate">
+                                    {{ event.title }}
+                                </div>
+                                <div class="text-blue-600">
+                                    {{ event.date|date:"H:i" }}
+                                </div>
+                                <a href="{% url 'events:detail' event.id %}" 
+                                   class="text-blue-500 hover:text-blue-700 text-xs">
+                                    Détails
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Légende -->
+    <div class="mt-6 flex flex-wrap gap-4 justify-center text-sm text-gray-600">
+        <div class="flex items-center space-x-2">
+            <div class="w-4 h-4 bg-blue-600 rounded"></div>
+            <span>Événement</span>
+        </div>
+        <div class="flex items-center space-x-2">
+            <div class="w-4 h-4 bg-blue-100 border border-blue-600 rounded"></div>
+            <span>Aujourd'hui</span>
+        </div>
+    </div>
+
+    <!-- Liste des événements du mois -->
+    <div class="mt-12 bg-white rounded-2xl shadow-lg p-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Événements de {{ current_month|date:"F Y" }}</h2>
+        
+        {% if events %}
+        <div class="space-y-4">
+            {% for event in events %}
+            <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-calendar text-blue-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">{{ event.title }}</h3>
+                        <p class="text-sm text-gray-600">
+                            {{ event.date|date:"l d F Y à H:i" }} • {{ event.location }}
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    {% if event.registration_link %}
+                    <a href="{{ event.registration_link }}" target="_blank" 
+                       class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                        S'inscrire
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'events:detail' event.id %}" 
+                       class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        Détails
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-8 text-gray-500">
+            <i class="fas fa-calendar-times text-4xl mb-3"></i>
+            <p>Aucun événement prévu pour ce mois.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

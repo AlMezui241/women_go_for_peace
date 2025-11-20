@@ -1,0 +1,81 @@
+<!-- templates/blog/list.html -->
+{% extends 'base.html' %}
+
+{% block title %}Actualités - Women Go for Peace{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Nos Actualités</h1>
+        <p class="text-xl text-gray-600">
+            Restez informé de nos dernières actions, événements et réflexions.
+        </p>
+    </div>
+
+    <!-- Filtres par catégorie -->
+    <div class="flex flex-wrap gap-4 justify-center mb-8">
+        <a href="{% url 'blog:list' %}" 
+           class="px-4 py-2 rounded-full border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition">
+            Tous les articles
+        </a>
+        {% for category in categories %}
+        <a href="{% url 'blog:list_by_category' category.slug %}" 
+           class="px-4 py-2 rounded-full border-2 border-gray-300 text-gray-600 hover:border-blue-500 hover:text-blue-500 transition">
+            {{ category.name }}
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Liste des articles -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        {% for post in posts %}
+        <article class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-sm text-gray-500">{{ post.created_at|date:"d F Y" }}</span>
+                    {% if post.category %}
+                    <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs">
+                        {{ post.category.name }}
+                    </span>
+                    {% endif %}
+                </div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-3">{{ post.title }}</h2>
+                <p class="text-gray-600 mb-4">{{ post.excerpt }}</p>
+                <div class="flex items-center justify-between">
+                    <a href="{% url 'blog:detail' post.slug %}" class="text-blue-600 font-semibold hover:text-blue-700 transition">
+                        Lire l'article →
+                    </a>
+                    <span class="text-sm text-gray-500">Par {{ post.author.get_full_name }}</span>
+                </div>
+            </div>
+        </article>
+        {% empty %}
+        <div class="col-span-3 text-center py-12">
+            <p class="text-gray-500 text-lg">Aucun article disponible pour le moment.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div class="flex justify-center items-center space-x-4">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+            Précédent
+        </a>
+        {% endif %}
+        
+        <span class="text-gray-600">
+            Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+        </span>
+        
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+            Suivant
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
